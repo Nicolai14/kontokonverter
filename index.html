@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CAMT.053 in MT940 umwandeln &ndash; im Browser, ohne Upload | KontoKonverter</title>
+<meta name="description" content="Bank-Kontoauszüge im CAMT.053-Format direkt im Browser in MT940 umwandeln. Keine Datei wird hochgeladen, alles bleibt lokal auf Ihrem Rechner. Kostenlos, ohne Anmeldung.">
+<meta property="og:title" content="CAMT.053 in MT940 umwandeln &ndash; ohne Upload">
+<meta property="og:description" content="Kontoauszüge clientseitig konvertieren. Ihre Bankdaten verlassen den Browser nicht.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="de_DE">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f766e'/><path d='M10 12h8m0 0-3-3m3 3-3 3M22 20h-8m0 0 3-3m-3 3 3 3' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<header class="site-head">
+  <a class="brand" href="/">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="7" fill="#0f766e"/><path d="M10 12h8m0 0-3-3m3 3-3 3M22 20h-8m0 0 3-3m-3 3 3 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span>Konto<b>Konverter</b></span>
+  </a>
+  <nav class="head-nav">
+    <a href="#tool">Konvertieren</a>
+    <a href="#faq">FAQ</a>
+    <a href="#pro" class="nav-pro">DATEV &amp; Stapel</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">CAMT.053 &rarr; MT940</p>
+      <h1>Kontoauszüge umwandeln &ndash; ohne sie hochzuladen.</h1>
+      <p class="lede">Ihre Bank liefert den Auszug nur noch als CAMT.053-XML, Ihre Buchhaltung will aber MT940? Ziehen Sie die Datei hier hinein. Die Umwandlung passiert komplett in Ihrem Browser.</p>
+      <p class="trust-row">
+        <span class="trust-pill" data-good>Keine Datei wird hochgeladen</span>
+        <span class="trust-pill">Kostenlos</span>
+        <span class="trust-pill">Ohne Anmeldung</span>
+      </p>
+    </div>
+  </section>
+
+  <section id="tool" class="tool">
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="CAMT.053-Datei auswählen oder hierher ziehen">
+      <input type="file" id="fileInput" accept=".xml,text/xml,application/xml" hidden>
+      <div class="dz-icon" aria-hidden="true"><svg viewBox="0 0 48 48" width="44" height="44"><path d="M24 31V11M24 11l-7 7M24 11l7 7" fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 31v4a2 2 0 002 2h26a2 2 0 002-2v-4" fill="none" stroke="#0f766e" stroke-width="2.4" stroke-linecap="round"/></svg></div>
+      <p class="dz-main">CAMT.053-Datei hierher ziehen</p>
+      <p class="dz-sub">oder <button type="button" id="browseBtn" class="linkbtn">Datei auswählen</button> &middot; camt.053.001.02 / .08 (.xml)</p>
+      <p class="dz-privacy">Die Verarbeitung passiert ausschließlich auf Ihrem Gerät.</p>
+    </div>
+    <p class="dz-error" id="errorBox" hidden></p>
+    <p class="dz-sample">Keine Datei zur Hand? <button type="button" class="linkbtn" id="demoBtn">Beispiel-Auszug ansehen</button></p>
+  </section>
+
+  <section id="result" class="result" hidden aria-live="polite"></section>
+
+  <section class="howto">
+    <h2>So funktioniert es</h2>
+    <div class="cards">
+      <div class="card"><span class="step">1</span><h3>CAMT.053 laden</h3><p>Die XML-Datei aus Ihrem Online-Banking auswählen oder hineinziehen.</p></div>
+      <div class="card"><span class="step">2</span><h3>Buchungen prüfen</h3><p>Alle Umsätze erscheinen als übersichtliche Tabelle mit Salden.</p></div>
+      <div class="card"><span class="step">3</span><h3>MT940 herunterladen</h3><p>Fertige .sta-Datei für Ihre Buchhaltungssoftware speichern.</p></div>
+    </div>
+  </section>
+
+  <section id="pro" class="pro">
+    <div class="pro-inner">
+      <p class="eyebrow">Für Kanzleien &amp; Buchhaltung</p>
+      <h2>DATEV-Buchungsstapel, CSV-Import und Stapelverarbeitung</h2>
+      <p class="lede">Der kostenlose Konverter erzeugt MT940 aus einer CAMT-Datei. Wer regelmäßig Mandanten- oder Firmendaten verarbeitet, braucht mehr: Export als DATEV-Buchungsstapel, Import beliebiger Bank-CSV mit Spalten-Zuordnung und mehrere Dateien auf einmal.</p>
+      <ul class="pro-list">
+        <li>Export als DATEV-Buchungsstapel (EXTF)</li>
+        <li>CSV-Import mit Banken-Vorlagen (Sparkasse, VR, ING, DKB &hellip;)</li>
+        <li>Mehrere Auszüge gleichzeitig konvertieren</li>
+        <li>Weiterhin: alles im Browser, kein Upload &ndash; ideal bei Verschwiegenheitspflicht</li>
+      </ul>
+      <form id="proForm" class="pro-form">
+        <label for="proEmail" class="visually-hidden">E-Mail-Adresse</label>
+        <input type="email" id="proEmail" name="email" placeholder="Ihre E-Mail-Adresse" required autocomplete="email">
+        <button type="submit" class="btn-primary" id="proSubmit">Frühen Zugang vormerken</button>
+      </form>
+      <p class="pro-note" id="proNote">Unverbindlich. Wir melden uns, sobald die Funktion verfügbar ist. Keine Werbung.</p>
+    </div>
+  </section>
+
+  <section id="faq" class="faq">
+    <h2>Häufige Fragen</h2>
+    <details><summary>Was ist CAMT.053 und warum brauche ich MT940?</summary><p>CAMT.053 (ISO 20022) ist das XML-Format, in dem Banken Kontoauszüge zunehmend bereitstellen. Viele Buchhaltungsprogramme erwarten weiterhin das ältere MT940-Format. Dieser Konverter überbrückt die Lücke.</p></details>
+    <details><summary>Werden meine Kontodaten hochgeladen?</summary><p>Nein. Die Datei wird ausschließlich in Ihrem Browser per JavaScript verarbeitet. Es findet kein Upload auf einen Server statt. Gerade bei Mandantendaten und der Verschwiegenheitspflicht ist das ein wesentlicher Vorteil gegenüber Upload-Diensten.</p></details>
+    <details><summary>Welche Formate werden unterstützt?</summary><p>Aktuell: CAMT.053 (camt.053.001.02 und .08) als Eingang, MT940 als Ausgang. DATEV-Buchungsstapel, CSV-Import und Stapelverarbeitung sind in Vorbereitung.</p></details>
+    <details><summary>Ist das eine Steuerberatung?</summary><p>Nein. Das Tool wandelt Dateiformate um. Es ersetzt keine steuerliche oder rechtliche Beratung. Prüfen Sie die Ausgabe vor dem Import stichprobenartig.</p></details>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>&copy; 2026 KontoKonverter</p>
+  <nav><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
+</footer>
+
+<script src="assets/app.js"></script>
+</body>
+</html>
