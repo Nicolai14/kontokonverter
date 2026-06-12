@@ -8,8 +8,23 @@
 const CONFIG = {
   counterBase: "https://api.counterapi.dev/v1/kontokonverter",
   signupEndpoint: "https://formsubmit.co/ajax/6gze8r4md17w@web-library.net",
-  demoUrl: "samples/camt053_sample.xml"
+  demoUrl: "samples/camt053_sample.xml",
+  freeDatevLimit: 10,      // gratis: bis zu 10 Buchungen je DATEV-Export
+  payUrl: ""               // Bezahllink (gesetzt, sobald Zahlungs-Account steht)
 };
+
+/* einfache, serverlose Lizenzschluessel-Pruefung (Format KK-XXXX-XXXX-PP, PP=Pruefsumme).
+   Schwacher Schutz (clientseitig), aber ausreichend fuer dieses Preissegment; spaeter haertbar. */
+function licenseValid(key) {
+  key = String(key || "").trim().toUpperCase();
+  const m = key.match(/^KK-([A-Z0-9]{4})-([A-Z0-9]{4})-(\d{2})$/);
+  if (!m) return false;
+  const body = "KK-" + m[1] + "-" + m[2];
+  let h = 7;
+  for (let i = 0; i < body.length; i++) h = (h * 31 + body.charCodeAt(i)) % 100;
+  return String(h).padStart(2, "0") === m[3];
+}
+function isLicensed() { try { return licenseValid(localStorage.getItem("kk_license")); } catch (e) { return false; } }
 
 /* ---------- namespace-toleranter XML-Zugriff ---------- */
 const lname = (el) => (el.localName || el.tagName || "").replace(/^.*:/, "");
@@ -172,21 +187,41 @@ function renderResult(stmts) {
       </div>`;
   }).join("");
 
+  const licensed = isLicensed();
+  const datevPanel = `
+    <div class="datev">
+      <div class="datev-head"><h3>DATEV-Buchungsstapel exportieren</h3>${licensed ? `<span class="lic-ok">Pro freigeschaltet</span>` : `<span class="pro-tag">Pro</span>`}</div>
+      <p class="datev-sub">Erzeugt eine EXTF-Datei (Format 700) zum Import in DATEV. Die Bank-Buchungen werden auf Ihr Geldkonto gegen ein Verrechnungskonto gebucht; die endgültige Kontierung nehmen Sie in DATEV vor.</p>
+      <div class="datev-opts">
+        <label>Geldkonto (Bank)<input type="text" id="dvKonto" value="1200" inputmode="numeric"></label>
+        <label>Gegenkonto (Verrechnung)<input type="text" id="dvGegen" value="1590" inputmode="numeric"></label>
+        <label>Berater-Nr.<input type="text" id="dvBerater" placeholder="optional" inputmode="numeric"></label>
+        <label>Mandanten-Nr.<input type="text" id="dvMandant" placeholder="optional" inputmode="numeric"></label>
+      </div>
+      <div class="datev-actions">
+        <button class="btn-primary" id="dlDatev" type="button">DATEV-Buchungsstapel herunterladen</button>
+        ${licensed ? "" : `<span class="datev-hint">Gratis bis ${CONFIG.freeDatevLimit} Buchungen. ${totalEntries > CONFIG.freeDatevLimit ? `Ihr Auszug hat ${totalEntries} &ndash; <button type="button" class="linkbtn" id="unlockBtn">Pro freischalten</button>.` : ""}</span>`}
+      </div>
+      <p class="datev-note" id="datevNote" hidden></p>
+    </div>`;
+
   document.getElementById("result").innerHTML = `
     <div class="res-bar">
       <span class="ok-pill">${esc(totalEntries)} Buchungen aus ${stmts.length} Auszug(en) gelesen</span>
       <div class="res-actions">
         <button class="btn-primary" id="dlMt940" type="button">MT940 herunterladen</button>
-        <button class="btn-ghost" id="dlDatev" type="button">DATEV-Buchungsstapel</button>
         <button class="btn-ghost" id="resetBtn" type="button">Andere Datei</button>
       </div>
     </div>
     ${blocks}
+    ${datevPanel}
     <p class="disclaimer">Bitte die erzeugte Datei vor dem Bank-/DATEV-Import stichprobenartig prüfen. Keine steuerliche Beratung.</p>`;
 
   document.getElementById("result").hidden = false;
   document.getElementById("dlMt940").addEventListener("click", downloadMt940);
-  document.getElementById("dlDatev").addEventListener("click", () => openPro("datev"));
+  document.getElementById("dlDatev").addEventListener("click", downloadDatev);
+  const unlock = document.getElementById("unlockBtn");
+  if (unlock) unlock.addEventListener("click", () => openPro("datev"));
   document.getElementById("resetBtn").addEventListener("click", reset);
   count("convert_success");
   document.getElementById("result").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -202,6 +237,47 @@ function downloadMt940() {
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
   count("download_mt940");
+}
+
+function downloadDatev() {
+  if (!CURRENT || !window.DATEV) return;
+  const opts = {
+    konto: (document.getElementById("dvKonto").value || "1200").trim(),
+    gegenkonto: (document.getElementById("dvGegen").value || "1590").trim(),
+    berater: (document.getElementById("dvBerater").value || "").trim(),
+    mandant: (document.getElementById("dvMandant").value || "").trim()
+  };
+  const licensed = isLicensed();
+  const total = CURRENT.reduce((a, s) => a + s.entries.length, 0);
+  if (!licensed) opts.limit = CONFIG.freeDatevLimit;
+  const r = window.DATEV.download(CURRENT, opts);
+  count("download_datev");
+  const note = document.getElementById("datevNote");
+  note.hidden = false; note.classList.remove("ok");
+  if (!licensed && total > CONFIG.freeDatevLimit) {
+    note.innerHTML = `Gratis-Version: nur die ersten ${CONFIG.freeDatevLimit} von ${total} Buchungen exportiert. <button type="button" class="linkbtn" id="unlockBtn2">Pro freischalten</button> für den vollständigen Export.`;
+    const u = document.getElementById("unlockBtn2"); if (u) u.addEventListener("click", () => openPro("datev"));
+    count("datev_limit_hit");
+  } else {
+    note.classList.add("ok");
+    note.textContent = `DATEV-Buchungsstapel mit ${r.count} Buchungen erzeugt (Geldkonto ${opts.konto} gegen ${opts.gegenkonto}).`;
+  }
+}
+
+/* Lizenzschluessel einloesen */
+function applyLicense() {
+  const inp = document.getElementById("licKey");
+  const out = document.getElementById("licNote");
+  const key = (inp.value || "").trim();
+  if (licenseValid(key)) {
+    try { localStorage.setItem("kk_license", key.toUpperCase()); } catch (e) {}
+    out.hidden = false; out.classList.add("ok"); out.textContent = "Pro freigeschaltet. Vielen Dank!";
+    count("license_activated");
+    if (CURRENT) renderResult(CURRENT);
+    document.getElementById("result").scrollIntoView({ behavior: "smooth" });
+  } else {
+    out.hidden = false; out.classList.remove("ok"); out.textContent = "Dieser Lizenzschlüssel ist ungültig.";
+  }
 }
 
 function openPro(which) {
@@ -273,6 +349,15 @@ proForm.addEventListener("submit", async (e) => {
   proNote.textContent = ok ? "Vielen Dank. Wir melden uns, sobald DATEV-Export und Stapelverarbeitung verfügbar sind." : "Das hat nicht geklappt. Bitte später erneut versuchen.";
   if (ok) { proNote.classList.add("ok"); proForm.reset(); }
   btn.disabled = false;
+});
+
+const licBtn = document.getElementById("licBtn");
+if (licBtn) licBtn.addEventListener("click", applyLicense);
+const buyBtn = document.getElementById("buyBtn");
+if (buyBtn) buyBtn.addEventListener("click", () => {
+  count("buy_click");
+  if (CONFIG.payUrl) { window.open(CONFIG.payUrl, "_blank", "noopener"); }
+  else { const i = document.getElementById("proEmail"); if (i) i.focus(); }
 });
 
 /* ---------- anonyme Reichweitenzaehlung ---------- */

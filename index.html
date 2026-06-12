@@ -80,6 +80,12 @@
         <button type="submit" class="btn-primary" id="proSubmit">Frühen Zugang vormerken</button>
       </form>
       <p class="pro-note" id="proNote">Unverbindlich. Wir melden uns, sobald die Funktion verfügbar ist. Keine Werbung.</p>
+      <div class="lic-row">
+        <span>Schon einen Lizenzschlüssel?</span>
+        <input type="text" id="licKey" placeholder="KK-XXXX-XXXX-00" autocomplete="off" spellcheck="false">
+        <button type="button" class="btn-ghost ghost-dark" id="licBtn">Freischalten</button>
+        <p class="lic-note" id="licNote" hidden></p>
+      </div>
     </div>
   </section>
 
@@ -97,6 +103,7 @@
   <nav><a href="impressum.html">Impressum</a><a href="datenschutz.html">Datenschutz</a></nav>
 </footer>
 
+<script src="assets/datev.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

@@ -83,3 +83,28 @@ table.tx .pos{color:var(--pos)}table.tx .neg{color:var(--neg)}
 .callout{background:var(--accent-tint);border:1px solid #b9e0da;border-radius:10px;padding:14px 16px;color:var(--accent-ink);font-size:.92rem}
 @media(max-width:720px){body{font-size:16px}.cards,.pro-list,.stmt-head .bal{grid-template-columns:1fr}.head-nav a:first-child{display:none}.stmt-head .bal{flex-direction:column;gap:8px;text-align:left}}
 @media print{.site-head,.hero,.howto,.faq,.pro,.site-foot,#tool,.res-actions{display:none!important}body{background:#fff}.result{padding:0}.stmt{border:none;box-shadow:none}}
+
+/* DATEV-Export-Panel */
+.datev{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px 24px;margin-bottom:16px}
+.datev-head{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.datev-head h3{font-size:1.1rem}
+.pro-tag{font-size:.7rem;font-weight:740;text-transform:uppercase;letter-spacing:.06em;color:#fff;background:var(--accent);border-radius:6px;padding:3px 8px}
+.lic-ok{font-size:.78rem;font-weight:680;color:var(--accent-ink);background:var(--accent-tint);border-radius:6px;padding:3px 9px}
+.datev-sub{color:var(--muted);font-size:.93rem;margin-bottom:16px;max-width:68ch}
+.datev-opts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+.datev-opts label{display:flex;flex-direction:column;gap:5px;font-size:.78rem;font-weight:620;color:var(--muted)}
+.datev-opts input{padding:9px 11px;border:1px solid var(--line-strong);border-radius:8px;font:inherit;font-size:.95rem;color:var(--ink);background:var(--paper)}
+.datev-opts input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
+.datev-actions{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.datev-hint{color:var(--faint);font-size:.86rem}
+.datev-note{margin-top:12px;font-size:.9rem;color:var(--warn,#9a5b00);background:#fff7ec;border:1px solid #f0dcc0;border-radius:8px;padding:10px 13px}
+.datev-note.ok{color:var(--accent-ink);background:var(--accent-tint);border-color:transparent}
+/* Lizenz-Zeile im Pro-Block (dunkler Hintergrund) */
+.lic-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:20px;border-top:1px solid #2b3a37;font-size:.92rem;color:#aebbb7}
+.lic-row input{padding:10px 13px;border-radius:9px;border:1px solid #34403d;background:#1d2a27;color:#fff;font:inherit;min-width:190px}
+.lic-row input:focus{outline:2px solid #5eead4;outline-offset:1px;border-color:transparent}
+.btn-ghost.ghost-dark{background:transparent;color:#e7eeec;border-color:#34403d}
+.btn-ghost.ghost-dark:hover{border-color:#5eead4;color:#fff}
+.lic-note{flex-basis:100%;margin:4px 0 0;color:#f3b08a}
+.lic-note.ok{color:#5eead4}
+@media(max-width:720px){.datev-opts{grid-template-columns:1fr 1fr}}
