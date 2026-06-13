@@ -34,6 +34,7 @@
       <p class="lede">Ihre Bank liefert den Auszug nur noch als CAMT.053-XML, Ihre Buchhaltung will aber MT940? Ziehen Sie die Datei hier hinein. Die Umwandlung passiert komplett in Ihrem Browser.</p>
       <p class="trust-row">
         <span class="trust-pill" data-good>Keine Datei wird hochgeladen</span>
+        <span class="trust-pill" data-good>Funktioniert offline</span>
         <span class="trust-pill">Kostenlos</span>
         <span class="trust-pill">Ohne Anmeldung</span>
       </p>
@@ -92,7 +93,7 @@
   <section id="faq" class="faq">
     <h2>Häufige Fragen</h2>
     <details><summary>Was ist CAMT.053 und warum brauche ich MT940?</summary><p>CAMT.053 (ISO 20022) ist das XML-Format, in dem Banken Kontoauszüge zunehmend bereitstellen. Viele Buchhaltungsprogramme erwarten weiterhin das ältere MT940-Format. Dieser Konverter überbrückt die Lücke.</p></details>
-    <details><summary>Werden meine Kontodaten hochgeladen?</summary><p>Nein. Die Datei wird ausschließlich in Ihrem Browser per JavaScript verarbeitet. Es findet kein Upload auf einen Server statt. Gerade bei Mandantendaten und der Verschwiegenheitspflicht ist das ein wesentlicher Vorteil gegenüber Upload-Diensten.</p></details>
+    <details><summary>Werden meine Kontodaten hochgeladen?</summary><p>Nein. Die Datei wird ausschließlich in Ihrem Browser per JavaScript verarbeitet, es findet kein Upload auf einen Server statt. Sie können das selbst prüfen: Öffnen Sie die Entwicklertools (F12) im Reiter „Netzwerk" &ndash; beim Umwandeln wird keine einzige Anfrage gesendet. Das Tool funktioniert nach dem Laden der Seite sogar ohne Internetverbindung. Gerade bei Mandantendaten und der Verschwiegenheitspflicht ist das ein wesentlicher Vorteil gegenüber Upload-Diensten.</p></details>
     <details><summary>Welche Formate werden unterstützt?</summary><p>Aktuell: CAMT.053 (camt.053.001.02 und .08) als Eingang, MT940 als Ausgang. DATEV-Buchungsstapel, CSV-Import und Stapelverarbeitung sind in Vorbereitung.</p></details>
     <details><summary>Ist das eine Steuerberatung?</summary><p>Nein. Das Tool wandelt Dateiformate um. Es ersetzt keine steuerliche oder rechtliche Beratung. Prüfen Sie die Ausgabe vor dem Import stichprobenartig.</p></details>
   </section>

@@ -362,11 +362,12 @@ if (buyBtn) buyBtn.addEventListener("click", () => {
 
 /* ---------- anonyme Reichweitenzaehlung ---------- */
 function count(event) {
+  // Datenschutz: ausschliesslich ein anonymer Seitenaufruf-Zaehler beim Laden.
+  // Waehrend der Umwandlung (Datei einlesen, parsen, MT940/DATEV erzeugen, Download)
+  // wird bewusst KEINE Anfrage gesendet - das Tool funktioniert dann sogar offline.
   try {
-    if (!CONFIG.counterBase) return;
-    const key = String(event || "").replace(/[^a-z0-9_]/gi, "").slice(0, 40);
-    if (!key) return;
-    const img = new Image(); img.src = CONFIG.counterBase + "/" + key + "/up?t=" + Date.now();
+    if (!CONFIG.counterBase || event !== "pageview") return;
+    const img = new Image(); img.src = CONFIG.counterBase + "/pageview/up?t=" + Date.now();
   } catch (e) {}
 }
 count("pageview");
